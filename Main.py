@@ -8,10 +8,17 @@ if __name__ == "__main__":
         , 'https://www.ndsu.edu/news/studentnews/deanslistfall2017/'
         , 'https://www.ndsu.edu/news/studentnews/deanslistspring2017/'
         , 'https://www.ndsu.edu/news/studentnews/deanslistfall2016/'
-        , 'https://www.ndsu.edu/news/studentnews/deanslistspring2016/']
+        , 'https://www.ndsu.edu/news/studentnews/deanslistspring2016/'
+        ,'https://www.ndsu.edu/news/studentnews/deanslistfall2015/'
+        ,'https://www.ndsu.edu/news/studentnews/deanslistspring2015/'
+        ,'https://www.ndsu.edu/news/studentnews/deanslistfall2014/'
+        ,'https://www.ndsu.edu/news/studentnews/deanslistspring2014/'
+        ,'https://www.ndsu.edu/news/studentnews/deanslistfall2013/'
+        , 'https://www.ndsu.edu/news/studentnews/deanslistspring2013/']
     # opens the file to write to
     f = open("exampleOutput.csv", "w")
-    for link in listLandingPage:
+    # reduced list due to large csv file
+    for link in listLandingPage[:4]:
         try:
             # creates a BS object for each Semester's landing page
             url = urllib.request.urlopen(link)
@@ -23,7 +30,7 @@ if __name__ == "__main__":
                     # collect information from the title of each link
                     words = x.text.split(" ")
                     state = ""
-                    year = words[-1]
+                    year = words[-2] + " " + words[-1]
                     # collect what state each link is for, or throw it away if it is not a dean's list link
                     while not words[0].startswith("Dean"):
                         state += " " + words[0]
