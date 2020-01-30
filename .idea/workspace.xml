@@ -8,6 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/beautifulsoup4-4.8.2.dist-info/INSTALLER" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/beautifulsoup4-4.8.2.dist-info/METADATA" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/Lib/site-packages/beautifulsoup4-4.8.2.dist-info/RECORD" beforeDir="false" />
@@ -382,6 +383,8 @@
       <change beforePath="$PROJECT_DIR$/venv/Scripts/python.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/Scripts/pythonw.exe" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/venv/pyvenv.cfg" beforeDir="false" />
+=======
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -492,6 +495,7 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+<<<<<<< Updated upstream
     <state width="1899" height="285" key="GridCell.Tab.0.bottom" timestamp="1580272239159">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
@@ -514,6 +518,30 @@
     <state width="1899" height="285" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1580272239158" />
     <state width="1899" height="351" key="GridCell.Tab.1.bottom" timestamp="1580271394824">
       <screen x="0" y="0" width="1920" height="1050" />
+=======
+    <state width="1515" height="219" key="GridCell.Tab.0.bottom" timestamp="1580256410201">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="219" key="GridCell.Tab.0.bottom/0.0.1536.834@0.0.1536.834" timestamp="1580256410201" />
+    <state width="1899" height="351" key="GridCell.Tab.0.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1580187198122" />
+    <state width="1515" height="219" key="GridCell.Tab.0.center" timestamp="1580256410201">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="219" key="GridCell.Tab.0.center/0.0.1536.834@0.0.1536.834" timestamp="1580256410201" />
+    <state width="1899" height="351" key="GridCell.Tab.0.center/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1580187198122" />
+    <state width="1515" height="219" key="GridCell.Tab.0.left" timestamp="1580256410201">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="219" key="GridCell.Tab.0.left/0.0.1536.834@0.0.1536.834" timestamp="1580256410201" />
+    <state width="1899" height="351" key="GridCell.Tab.0.left/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1580187198122" />
+    <state width="1515" height="219" key="GridCell.Tab.0.right" timestamp="1580256410201">
+      <screen x="0" y="0" width="1536" height="834" />
+    </state>
+    <state width="1515" height="219" key="GridCell.Tab.0.right/0.0.1536.834@0.0.1536.834" timestamp="1580256410201" />
+    <state width="1899" height="351" key="GridCell.Tab.0.right/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1580187198122" />
+    <state width="1493" height="265" key="GridCell.Tab.1.bottom" timestamp="1580251453749">
+      <screen x="0" y="0" width="1536" height="834" />
+>>>>>>> Stashed changes
     </state>
     <state width="1493" height="265" key="GridCell.Tab.1.bottom/0.0.1536.834@0.0.1536.834" timestamp="1580251453749" />
     <state width="1899" height="351" key="GridCell.Tab.1.bottom/0.0.1920.1050/1920.0.1920.1050@0.0.1920.1050" timestamp="1580271394824" />
