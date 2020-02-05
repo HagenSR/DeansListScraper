@@ -20,9 +20,9 @@ if __name__ == "__main__":
         , 'https://www.ndsu.edu/news/studentnews/deanslistfall2012/'
         , 'https://www.ndsu.edu/news/studentnews/deanslistspring2012/']
     # opens the file to write to
-    f = open("allYears2012-2019.csv", "w")
+    f = open("exampleOutput.csv", "w")
     # reduced list due to large csv file
-    for link in listLandingPage:
+    for link in listLandingPage[:3]:
         # creates a BS object for each Semester's landing page
         url = urllib.request.urlopen(link)
         soup = bs.BeautifulSoup(url, 'html.parser')
@@ -30,35 +30,10 @@ if __name__ == "__main__":
         links = soup.find_all('a')
         for x in links:
             try:
-                # collect information from the title of each link
-                words = x.text.split(" ")
-                state = ""
-                year = words[-2] + " " + words[-1]
-                # collect what state each link is for, or throw it away if it is not a dean's list link
-                while "Dean" not in words[0]:
-                    words.pop(0)
-                # build a link for each state, then navigate and create a bs object for it
-                textString = "https://www.ndsu.edu/" + x.get('href')
-                url2 = urllib.request.urlopen(textString)
-                soup = bs.BeautifulSoup(url2, 'html.parser')
-                table = soup.find('table')
-                tableRows = table.find_all('tr')
-
-                if "other" in state.lower():
-                    print(end="")
-                    # TO do, figure out how to collect information from "other" states/countries
-                    # for tr in tableRows[1:]:
-                    #     td = tr.find_all('td')
-                    #     if tr.find('td').text != "":
-                    #         location = tr.find('td').text.split(",")[0]
-                    #     row = [i.text for i in td[1:]]
-                    #     row.append(location)
-                    #     row.append(state)
-                    #     row.append(year)
-                    #     print(row)
-                else:
-                    # collect information from each row in the table
-                    Utility.basic_state(tableRows, year, f)
+                # collects table rows and other information about table
+                rows_info = Utility.rows_handler(x)
+                # collect information from each row in the table
+                Utility.row_handler(rows_info[1], rows_info[0], f)
             except IndexError:
                 print(end="")
                 # do nothing, throw away bad link
