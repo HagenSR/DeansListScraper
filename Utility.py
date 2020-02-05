@@ -24,27 +24,31 @@ def row_handler(table_rows, year, file):
         # add information from the row/variables to a list
         row = []
         if good_input(td[0].text):
-            city = td[0].text.split(",")[0].replace("\xa0", "")
-            state = td[0].text.split(",")[1].replace("\xa0", "")
+            city = td[0].text.split(",")[0]
+            state = td[0].text.split(",")[1]
         for i in td[1:]:
             if good_input(i.text):
-                row.append(i.text.replace("\xa0", ""))
+                row.append(i.text)
         row.append(city)
         row.append(state)
         row.append(year)
         write = ""
-        # move information from list to string:
-        if row.__len__() is not 5:
+        # Checks to see if row is valid
+        if (row.__len__() is not 5) or (row[0].startswith("Name")):
             print("problem with row " + str(row))
         else:
+            # move information from list to string:
             for i in row:
-                if i:
-                    write += "\"" + str(i) + "\"" + ","
+                # doesn't write a comma to the last entry in row
+                if i and i is row[-1]:
+                    write += "\"" + str(i) + "\""
+                else:
+                    write += "\"" + " ".join(str(i).split()) + "\"" + ","
             # write to exampleOutput.csv
             file.write(write + "\n")
 
 
-def rows_handler(link):
+def rows_finder(link):
     """
     takes a link, then finds the table rows and table information needed for that page
     :param link: a link to a specific states deans list
