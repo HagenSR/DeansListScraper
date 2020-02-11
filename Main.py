@@ -26,7 +26,7 @@ if __name__ == "__main__":
     # sets up database
     Utility.setup(connString)
     # reduced list due to large csv file
-    for link in listLandingPage[:1]:
+    for link in listLandingPage[]:
         # creates a BS object for each Semester's landing page
         url = urllib.request.urlopen(link)
         soup = bs.BeautifulSoup(url, 'html.parser')
