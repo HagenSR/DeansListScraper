@@ -3,7 +3,7 @@ Python code that scrapes deans list information from multiple semesters and stat
 
 TO USE
 1. Update landing page links if applicable in the main.py class
-2. download PostgreSQL, set up a user and enter the Command CREATE TABLE deanslist
+2. download PostgreSQL, set up a user and enter the Command "CREATE TABLE deanslist;"
 3. update the connString in main.py to match your username and password (if applicable, update port information which is set to default)
 4. Run the program
 5. Enter Queries!
