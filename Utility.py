@@ -1,5 +1,7 @@
 import bs4 as bs
 import urllib.request
+import psycopg2
+import re
 
 
 def good_input(b):
@@ -8,44 +10,92 @@ def good_input(b):
     return False
 
 
+def fix_input(b):
+    """
+    Removes unwanted Characters, Replaces Abbreviation of State with Full name
+    :param b: A string to be cleaned
+    :return: A cleaned string
+    """
+    b = re.sub("Dean's List", "", b)
+    b = re.sub("'", " ", b)
+    b = re.sub("  *", " ", b)
+    b = re.sub("\xa0$", "", b)
+    b = re.sub("[.]", "", b)
+    b = re.sub("^ Minn$", "Minnesota", b)
+    b = re.sub("^ ND$", "North Dakota", b)
+    b = re.sub("^ SD$", "South Dakota", b)
+    b = re.sub("^ Wis$", "Wisconsin", b)
+    b = re.sub("^ Mont$", "Montana", b)
+    return b
+
+
+def setup(connectionString):
+    conn = psycopg2.connect(connectionString)
+    cursor = conn.cursor()
+    try:
+        # Try to drop tables if they exist
+        cursor.execute("DROP TABLE semester")
+        cursor.execute("DROP TABLE student")
+    except psycopg2.errors.UndefinedTable:
+        # if tables didn't exist, refresh connection
+        cursor.close()
+        conn.close()
+        conn = psycopg2.connect(connectionString)
+        cursor = conn.cursor()
+    cursor.execute("CREATE TABLE student(name varchar(60),major varchar(60),city varchar(60),state varchar(60),"
+                   "id int GENERATED ALWAYS AS IDENTITY(START WITH 1 INCREMENT BY 1),UNIQUE(name, major, city),"
+                   "PRIMARY KEY(id));")
+    cursor.execute("CREATE TABLE semester(id int,semester varchar(30) ,foreign key(id) REFERENCES student(id));")
+    cursor.close()
+    conn.commit()
+    print("Clean")
+
+
 def row_handler(table_rows, year, file):
     '''
     pulls information out of each row, throwing it away if it doesn't have enough entries to be valid
     (Name, Major, Year, city, location)
     :param table_rows: a collection of rows containing deans list information 
     :param year: a year and semester for a given table
-    :param file: a file to write to
+    :param file: a database to write to
     :return: nothing, this method writes directly to a csv file
     '''
     city = ""
     state = ""
+    conn = psycopg2.connect(file)
+    cursor = conn.cursor()
     for tr in table_rows:
         td = tr.find_all('td')
         # add information from the row/variables to a list
-        row = []
+        studentList = []
+        year_list = []
         if good_input(td[0].text):
-            city = td[0].text.split(",")[0]
-            state = td[0].text.split(",")[1]
+            city = fix_input(td[0].text.split(",")[0])
+            state = fix_input(td[0].text.split(",")[1])
         for i in td[1:]:
             if good_input(i.text):
-                row.append(i.text)
-        row.append(city)
-        row.append(state)
-        row.append(year)
+                studentList.append(fix_input(str(i.text)))
+        studentList.append(fix_input(str(city)))
+        studentList.append(fix_input(str(state)))
+        year_list.append(fix_input(str(year)))
+
         write = ""
         # Checks to see if row is valid
-        if (row.__len__() is not 5) or (row[0].startswith("Name")):
-            print("problem with row " + str(row))
+        if (studentList.__len__() is not 4) or (studentList[0].startswith("Name")):
+            print("problem with row " + str(studentList))
         else:
             # move information from list to string:
-            for i in row:
-                # doesn't write a comma to the last entry in row
-                if i and i is row[-1]:
-                    write += "\"" + str(i) + "\""
-                else:
-                    write += "\"" + " ".join(str(i).split()) + "\"" + ","
-            # write to exampleOutput.csv
-            file.write(write + "\n")
+            try:
+                cursor.execute("INSERT INTO student VALUES (%s,%s,%s,%s)", tuple(studentList))
+            except psycopg2.errors.InFailedSqlTransaction and psycopg2.errors.UniqueViolation:
+                conn = psycopg2.connect(file)
+                cursor = conn.cursor()
+                # Student was already in database, get Student ID
+            cursor.execute('SELECT id FROM student WHERE name = \'' + studentList[0] + "\'")
+            id = cursor.fetchone()
+            year_list.insert(0, id)
+            cursor.execute("INSERT INTO semester VALUES (%s,%s)", tuple(year_list))
+            conn.commit()
 
 
 def rows_finder(link):
@@ -56,8 +106,6 @@ def rows_finder(link):
     """
     # collect information from the title of each link
     words = link.text.split(" ")
-    if "" in words:
-        words.remove("")
     year = words[-2] + " " + words[-1]
     # collect what state each link is for, or throw it away if it is not a dean's list link
     while "Dean" not in words[0]:
@@ -69,6 +117,7 @@ def rows_finder(link):
     # finds all the tables in the file and returns the last one,
     # which (for the NDSU page) is the table that holds the information we want
     table = soup.find_all('table')[-1]
+    soup.prettify()
     # checks to see if there is a table within a table
     table_rows = table.find_all('tr')
     rows_info = [year, table_rows]

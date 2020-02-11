@@ -20,12 +20,13 @@ if __name__ == "__main__":
         , 'https://www.ndsu.edu/news/studentnews/deanslistspring2013/'
         , 'https://www.ndsu.edu/news/studentnews/deanslistfall2012/'
         , 'https://www.ndsu.edu/news/studentnews/deanslistspring2012/']
-    # opens the file to write to
-    file = open("exampleOutput.csv", "w")
-    # Header for the CSV file
-    file.writelines("Name, Major, City, State, Semester\n")
+    # connect to database
+    # replace info where appropriate in your connection string
+    connString = "dbname=deanslist user=postgres password=yourPassword"
+    # sets up database
+    Utility.setup(connString)
     # reduced list due to large csv file
-    for link in listLandingPage[:3]:
+    for link in listLandingPage[:1]:
         # creates a BS object for each Semester's landing page
         url = urllib.request.urlopen(link)
         soup = bs.BeautifulSoup(url, 'html.parser')
@@ -36,8 +37,8 @@ if __name__ == "__main__":
                 # collects table rows and other information about table
                 rows_info = Utility.rows_finder(x)
                 # collect information from each row in the table
-                # then writes it to a file
-                Utility.row_handler(rows_info[1], rows_info[0], file)
+                # then writes it to a database
+                Utility.row_handler(rows_info[1], rows_info[0], connString)
             except IndexError:
                 # do nothing, throw away bad link
                 print(end="")
