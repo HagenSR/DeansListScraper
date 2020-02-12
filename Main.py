@@ -37,7 +37,7 @@ if __name__ == "__main__":
                 rows_info = Utility.rows_finder(x)
                 # collect information from each row in the table
                 # then writes it to a file
-                Utility.row_handler(rows_info[1], rows_info[0], file)
+                Utility.csv_row_handler(rows_info[1], rows_info[0], file)
             except IndexError:
                 # do nothing, throw away bad link
                 print(end="")

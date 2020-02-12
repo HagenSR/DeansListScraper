@@ -1,5 +1,6 @@
 import bs4 as bs
 import urllib.request
+import re
 
 
 def good_input(b):
@@ -7,8 +8,25 @@ def good_input(b):
         return True
     return False
 
+def fix_input(b):
+    """
+    Removes unwanted Characters, Replaces Abbreviation of State with Full name
+    :param b: A string to be cleaned
+    :return: A cleaned string
+    """
+    b = re.sub("Dean's List", "", b)
+    b = re.sub("'", " ", b)
+    b = re.sub("  *", " ", b)
+    b = re.sub("\xa0$", "", b)
+    b = re.sub("[.]", "", b)
+    b = re.sub("^ Minn$", "Minnesota", b)
+    b = re.sub("^ ND$", "North Dakota", b)
+    b = re.sub("^ SD$", "South Dakota", b)
+    b = re.sub("^ Wis$", "Wisconsin", b)
+    b = re.sub("^ Mont$", "Montana", b)
+    return b
 
-def row_handler(table_rows, year, file):
+def csv_row_handler(table_rows, year, file):
     '''
     pulls information out of each row, throwing it away if it doesn't have enough entries to be valid
     (Name, Major, Year, city, location)
@@ -28,13 +46,13 @@ def row_handler(table_rows, year, file):
             state = td[0].text.split(",")[1]
         for i in td[1:]:
             if good_input(i.text):
-                row.append(i.text)
-        row.append(city)
-        row.append(state)
-        row.append(year)
+                row.append(fix_input(i.text))
+        row.append(fix_input(city))
+        row.append(fix_input(state))
+        row.append(fix_input(year))
         write = ""
         # Checks to see if row is valid
-        if (row.__len__() is not 5) or (row[0].startswith("Name")):
+        if (row.__len__() != 5) or (row[0].startswith("Name")):
             print("problem with row " + str(row))
         else:
             # move information from list to string:
