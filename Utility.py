@@ -16,16 +16,17 @@ def fix_input(b):
     :param b: A string to be cleaned
     :return: A cleaned string
     """
-    b = re.sub("Dean's List", "", b)
-    b = re.sub("'", " ", b)
+    b = b.strip()
+    b = re.sub("Dean", "", b)
+    b = re.sub("List", "", b)
+    b = re.sub("[']", " ", b)
+    b = re.sub("^[a-zA-Z ]", "", b)
     b = re.sub("  *", " ", b)
-    b = re.sub("\xa0$", "", b)
-    b = re.sub("[.]", "", b)
-    b = re.sub("^ Minn$", "Minnesota", b)
-    b = re.sub("^ ND$", "North Dakota", b)
-    b = re.sub("^ SD$", "South Dakota", b)
-    b = re.sub("^ Wis$", "Wisconsin", b)
-    b = re.sub("^ Mont$", "Montana", b)
+    b = re.sub("^Minn$", "Minnesota", b)
+    b = re.sub("^ND$", "North Dakota", b)
+    b = re.sub("^SD$", "South Dakota", b)
+    b = re.sub("^Wis$", "Wisconsin", b)
+    b = re.sub("^Mont$", "Montana", b)
     return b
 
 
